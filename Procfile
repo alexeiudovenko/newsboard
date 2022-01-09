@@ -1,0 +1,1 @@
+web: gunicorn developtoday.wsgi --log-file -
