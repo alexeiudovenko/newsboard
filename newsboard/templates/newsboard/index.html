@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}News board{% endblock %}</title>
+</head>
+<body>
+    {% block content %}
+        <p>
+            Hello, {{ user }}
+            {% if user.is_active %}
+                <span><a href="{% url 'newsboard:logout' %}">Logout</a></span>
+            {% else %}
+                <span><a href="{% url 'newsboard:login' %}">Sign in</a></span>
+            {% endif %}
+        </p>
+        {% for p in post %}
+            <div>{{ forloop.counter }}</div>
+            <div style="border: 1px solid; margin: 20px;">
+                <div>
+                    <a href="{{ p.link }}">{{ p.title }}</a>
+                </div>
+                <div>
+                    Votes - {{ p.votes }}
+                    <form action="{% url 'newsboard:vote' p.id %}" method="POST">  
+                        {% csrf_token %}        
+                        <input type="submit" value="Vote">
+                    </form>
+                    <!-- if user.is_staff If you`re an admin  -->
+                    <span>
+                        <form action="{% url 'newsboard:resetvote' p.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="submit" value="Rest votes">
+                        </form>             
+                    </span>
+                    <!-- endif -->
+                </div>
+                <div>{{ p.creation_date }}</div>
+                <div>{{ p.author_name }}</div>
+                <div><a href="{% url 'newsboard:comments' p.id %}">Comments</a></div>
+            </div>
+        {% endfor %}
+    {% endblock %}
+</body>
+</html>

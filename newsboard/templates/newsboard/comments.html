@@ -1,0 +1,23 @@
+{% extends 'newsboard/index.html' %}
+
+{% block title %}Comments{% endblock %}
+
+{% block content %}
+    <div>
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+                <input type="submit" value="Comment on">
+            </form>
+        </div>
+        <button type="button"><a href="{% url 'newsboard:news' %}">Back</a></button>
+        {% for c in comment %}
+            <div style="margin: 20px; background-color: gray;">
+                <div>{{ c.author_name_comment }}</div>
+                <p>{{ c.content }} <span>{{ c.creation_date_comment }}</span></p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'newsboard/index.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Sign in">
+    </form>
+    <p><a href="{% url 'newsboard:register' %}">Sign up</a></p>
+{% endblock %}
